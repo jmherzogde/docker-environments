@@ -1,0 +1,16 @@
+version: '3.9'
+
+services:
+
+  codesys:
+    container_name: codesys_linux_sl
+    image: codesys_runtime:local
+    privileged: true
+    build:
+      dockerfile: Codesys-Runtime-Linux-SL/Dockerfile
+    ports:
+      - "11740:11740"
+      - "1217:1217"
+      - "11743:11743"
+      - "8080:8080"
+      - "4840:4840"
