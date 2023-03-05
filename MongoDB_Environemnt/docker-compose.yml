@@ -1,0 +1,31 @@
+version: '3'
+
+
+services:
+
+  mongodb:
+    image: 'mongo:latest'
+    ports:
+      - "27017-27019:27017-27019"
+    environment:
+      - MONGO_INITDB_DATABASE=${MONGO_DEFAULT_DB}
+      - MONGO_INITDB_ROOT_USERNAME=${MONGO_ROOT_USER}
+      - MONGO_INITDB_ROOT_PASSWORD=${MONGO_ROOT_PWD}
+    volumes:
+      - mongodb-data:/data/db
+
+  database-admin:
+    image: mongo-express
+    ports:
+      - "8081:8081"
+    restart: on-failure
+    environment:
+      - ME_CONFIG_MONGODB_ADMINUSERNAME=${MONGO_ROOT_USER}
+      - ME_CONFIG_MONGODB_ADMINPASSWORD=${MONGO_ROOT_PWD}
+      - ME_CONFIG_MONGODB_SERVER=mongodb
+      - ME_CONFIG_BASICAUTH_USERNAME=${MONGO_EXPRESS_USER}
+      - ME_CONFIG_BASICAUTH_PASSWORD=${MONGO_EXPRESS_PWD}
+    depends_on:
+      - mongodb
+volumes:
+  mongodb-data:
